@@ -9,9 +9,7 @@ const Header = () => {
     <header className="flex justify-between items-center">
       <Link to={"/"} className="flex gap-1 items-center">
         <MdOutlineTravelExplore className="w-8 h-8 text-secondary" />
-        <span className="font-bold text-xl text-secondary">
-          TripssssssYourWay
-        </span>
+        <span className="font-bold text-xl text-secondary">TripsYourWay</span>
       </Link>
       <div className="flex gap-2 border border-gray-300 rounded-full px-4 py-2 shadow-md shadow-gray-300">
         <div>Anywhere</div>
