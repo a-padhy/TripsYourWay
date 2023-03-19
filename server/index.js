@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const User = require("./models/User");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const Place = require("./models/Place.js");
@@ -12,11 +11,11 @@ const connectDB = require("./db/connect");
 
 const placesRouter = require("./routes/places");
 const bookingsRouter = require("./routes/bookings");
+const authRouter = require("./routes/auth");
 
 require("dotenv").config();
 const app = express();
 
-const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
 
 // middleware
@@ -33,6 +32,7 @@ app.use(
 
 // routes
 
+app.use("/", authRouter);
 app.use("/places", placesRouter);
 app.use("/bookings", bookingsRouter);
 
@@ -54,45 +54,45 @@ app.get("/test", (req, res) => {
   res.json("test ok");
 });
 
-app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-  try {
-    const userDoc = await User.create({
-      name,
-      email,
-      password: bcrypt.hashSync(password, bcryptSalt),
-    });
-    res.json(userDoc);
-  } catch (e) {
-    res.status(422).json(e);
-  }
-});
+// app.post("/register", async (req, res) => {
+//   const { name, email, password } = req.body;
+//   try {
+//     const userDoc = await User.create({
+//       name,
+//       email,
+//       password: bcrypt.hashSync(password, bcryptSalt),
+//     });
+//     res.json(userDoc);
+//   } catch (e) {
+//     res.status(422).json(e);
+//   }
+// });
 
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const userDoc = await User.findOne({ email });
-  if (userDoc) {
-    const passOk = bcrypt.compareSync(password, userDoc.password);
-    if (passOk) {
-      jwt.sign(
-        {
-          email: userDoc.email,
-          id: userDoc._id,
-        },
-        jwtSecret,
-        {},
-        (err, token) => {
-          if (err) throw err;
-          res.cookie("token", token).json(userDoc);
-        }
-      );
-    } else {
-      res.status(422).json("pass not ok");
-    }
-  } else {
-    res.json("not found");
-  }
-});
+// app.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+//   const userDoc = await User.findOne({ email });
+//   if (userDoc) {
+//     const passOk = bcrypt.compareSync(password, userDoc.password);
+//     if (passOk) {
+//       jwt.sign(
+//         {
+//           email: userDoc.email,
+//           id: userDoc._id,
+//         },
+//         jwtSecret,
+//         {},
+//         (err, token) => {
+//           if (err) throw err;
+//           res.cookie("token", token).json(userDoc);
+//         }
+//       );
+//     } else {
+//       res.status(422).json("pass not ok");
+//     }
+//   } else {
+//     res.json("not found");
+//   }
+// });
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
@@ -107,9 +107,9 @@ app.get("/profile", (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
-  res.cookie("token", "").json(true);
-});
+// app.post("/logout", (req, res) => {
+//   res.cookie("token", "").json(true);
+// });
 
 app.post("/upload-by-link", async (req, res) => {
   const { link } = req.body;
