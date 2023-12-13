@@ -1,6 +1,8 @@
 const Place = require("../models/Place");
 const jwt = require("jsonwebtoken");
 
+const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
+
 const getAllPlaces = async (req, res) => {
   res.json(await Place.find());
 };

@@ -36,7 +36,7 @@ app.use("/", authRouter);
 app.use("/places", placesRouter);
 app.use("/bookings", bookingsRouter);
 
-const port = process.env.PORT || 4000;
+const port = 4000;
 
 const start = async () => {
   try {
@@ -68,14 +68,17 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/upload-by-link", async (req, res) => {
-  const { link } = req.body;
-  const newName = "photo" + Date.now() + ".jpg";
-  await imageDownloader.image({
-    url: link,
-    dest: __dirname + "/uploads/" + newName,
-  });
-
-  res.json(newName);
+  try {
+    const { link } = req.body;
+    const newName = "photo" + Date.now() + ".jpg";
+    await imageDownloader.image({
+      url: link,
+      dest: __dirname + "/uploads/" + newName,
+    });
+    res.json(newName);
+  } catch (error) {
+    res.json(error);
+  }
 });
 
 const photosMiddleware = multer({ dest: "uploads/" });
