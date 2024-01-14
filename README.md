@@ -9,6 +9,8 @@ The accomodation detail page that displays information such as title, address, p
 
 To use the application, users must first sign up with their name, email and password. Once signed in, they can browse through all accomodations, book them, create new ones, edit them, etc. The profile page shows all accomodations added by them and their past bookings. The application also provides a logout button to ensure the user's privacy and security.
 
+## Video Demo
+https://drive.google.com/file/d/1yq4R-9W2ysVcujCL2EygCtVQvFOESSOw/view?usp=drive_link
  
 ## Installation
 
